@@ -1,0 +1,23 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model appointment {
+  id          Int      @id @default(autoincrement())
+  animalName  String
+  breed       String
+  weight      Float
+  service     String
+  ownerName   String
+  contact     String
+  scheduledAt DateTime
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

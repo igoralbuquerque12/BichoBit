@@ -1,10 +1,31 @@
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
 import { handleError } from "@/utils/handlerError"
+import { Prisma } from "@prisma/client"
+import { Appointment } from "@/types/appointment"
 
-export async function GET() {
+export async function GET(req: Request) {
     try {
-        const dataAppointments = await prisma.appointment.findMany()
+        const url = new URL(req.url)
+        
+        const start = url.searchParams.get('start')
+        const end = url.searchParams.get('end')
+
+        const whereClause: Prisma.appointmentWhereInput = {}
+        
+        if (start || end) {
+            whereClause.scheduledAt = {}
+            if (start) {
+                whereClause.scheduledAt.gte = new Date(start)
+            }
+            if (end) {
+                whereClause.scheduledAt.lte = new Date(end)
+            }
+        }
+
+        const dataAppointments: Appointment[] = await prisma.appointment.findMany({
+            where: whereClause
+        })
 
         return NextResponse.json({
             status: "success",

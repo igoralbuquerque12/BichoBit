@@ -1,12 +1,16 @@
-"use client"
+"use server"
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, CartesianGrid } from "recharts"
 import { Calendar, List, Plus } from "lucide-react"
 import Link from "next/link"
 
+import GraphHome from "@/components/GraphHome"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { ChartContainer, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+import { Appointment } from "@/types/appointment"
+
+import { organizeAppointmentsForDates } from "@/utils/organizeAppointmentsForDates"
+import { getWeekRange } from "@/utils/getWeekRange"
 
 const weekData = [
   { day: "Segunda", horarios: 8 },
@@ -17,14 +21,25 @@ const weekData = [
   { day: "Sábado", horarios: 5 },
 ]
 
-const chartConfig = {
-  horarios: {
-    label: "Horários",
-    color: "#f97316",
-  },
-}
+export default async function HomePage() {
+  const { startOfWeek, endOfWeek } = getWeekRange()
 
-export default function HomePage() {
+  const queryParams = new URLSearchParams({ start: startOfWeek.toString(), end: endOfWeek.toString() });
+
+  const res = await fetch(`${process.env.URL}/api/appointments?${queryParams.toString()}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+
+  if (!res.ok) throw new Error("Erro no fetch de get appointments")
+  
+  const data = await res.json()
+  const dataAppointments: Appointment[] = data.data
+
+  const appointmentArray = organizeAppointmentsForDates(dataAppointments)
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -96,25 +111,8 @@ export default function HomePage() {
         </Card>
       </div>
 
-      <Card className="border-orange-200">
-        <CardHeader>
-          <CardTitle className="text-orange-600">Horários da Semana</CardTitle>
-          <CardDescription>Distribuição de horários agendados de segunda a sábado</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <ChartContainer config={chartConfig} className="h-[300px]">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={weekData}>
-                <CartesianGrid strokeDasharray="3 3" stroke="#fed7aa" />
-                <XAxis dataKey="day" stroke="#ea580c" fontSize={12} />
-                <YAxis stroke="#ea580c" fontSize={12} />
-                <ChartTooltip content={<ChartTooltipContent />} />
-                <Bar dataKey="horarios" fill="#f97316" radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </ChartContainer>
-        </CardContent>
-      </Card>
+      <GraphHome appointmentArray={appointmentArray} />
     </div>
   )
 }
+

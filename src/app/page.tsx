@@ -1,25 +1,16 @@
 "use server"
 
-import { Calendar, List, Plus } from "lucide-react"
+import { List, Plus } from "lucide-react"
 import Link from "next/link"
-
-import GraphHome from "@/components/GraphHome"
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+
+import CardsHome from "@/components/CardsHome"
+import GraphHome from "@/components/GraphHome"
 
 import { Appointment } from "@/types/appointment"
-
 import { organizeAppointmentsForDates } from "@/utils/organizeAppointmentsForDates"
 import { getWeekRange } from "@/utils/getWeekRange"
 
-const weekData = [
-  { day: "Segunda", horarios: 8 },
-  { day: "Terça", horarios: 12 },
-  { day: "Quarta", horarios: 6 },
-  { day: "Quinta", horarios: 15 },
-  { day: "Sexta", horarios: 10 },
-  { day: "Sábado", horarios: 5 },
-]
 
 export default async function HomePage() {
   const { startOfWeek, endOfWeek } = getWeekRange()
@@ -63,53 +54,7 @@ export default async function HomePage() {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
-        <Card className="border-orange-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Total da Semana</CardTitle>
-            <Calendar className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">
-              {weekData.reduce((acc, day) => acc + day.horarios, 0)}
-            </div>
-            <p className="text-xs text-gray-600">horários agendados</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-orange-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Hoje</CardTitle>
-            <Calendar className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">12</div>
-            <p className="text-xs text-gray-600">horários hoje</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-orange-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Maior Dia</CardTitle>
-            <Calendar className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">15</div>
-            <p className="text-xs text-gray-600">quinta-feira</p>
-          </CardContent>
-        </Card>
-
-        <Card className="border-orange-200">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium text-gray-600">Média Diária</CardTitle>
-            <Calendar className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold text-orange-600">9.3</div>
-            <p className="text-xs text-gray-600">horários por dia</p>
-          </CardContent>
-        </Card>
-      </div>
+      <CardsHome appointments={dataAppointments} />
 
       <GraphHome appointmentArray={appointmentArray} />
     </div>

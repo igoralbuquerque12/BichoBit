@@ -19,7 +19,7 @@ export function getStatisticsAppointments(appointments: Appointment[]): Statisti
     const dataStatistics: StatisticsData = {
         totalWeek: appointments.length,
         totalToday: appointments.filter(appointment => {
-            const appointmentDate = new Date(appointment.scheduledAt);
+            const appointmentDate = new Date(appointment.scheduleDate);
             return appointmentDate >= startOfDay && appointmentDate <= endOfDay;
         }).length,
         busiestDay: {
@@ -32,7 +32,7 @@ export function getStatisticsAppointments(appointments: Appointment[]): Statisti
     const appointmentsByDay = Array(7).fill(0);
     
     appointments.forEach(appointment => {
-        const appointmentDate = new Date(appointment.scheduledAt);
+        const appointmentDate = new Date(appointment.scheduleDate);
         const dayOfWeek = appointmentDate.getDay();
         appointmentsByDay[dayOfWeek]++;
     });

@@ -8,15 +8,18 @@ datasource db {
 }
 
 model appointment {
-  id          Int      @id @default(autoincrement())
-  animalName  String
-  breed       String
-  weight      Float
-  service     String
-  ownerName   String
-  contact     String
-  scheduledAt DateTime
+  id           Int      @id @default(autoincrement())
+  animalName   String
+  breed        String
+  weight       String
+  service      String
+  ownerName    String
+  contact      String
+  scheduleDate DateTime
+  startTime    DateTime
+  endTime      DateTime
+  observations String?
 
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

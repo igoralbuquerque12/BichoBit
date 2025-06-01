@@ -1,6 +1,6 @@
 import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
-import { handleError } from "@/utils/handlerError"
+import { handleErrorRequest } from "@/utils/handlerError"
 import { Prisma } from "@prisma/client"
 import { Appointment } from "@/types/appointment"
 
@@ -14,12 +14,12 @@ export async function GET(req: Request) {
         const whereClause: Prisma.appointmentWhereInput = {}
         
         if (start || end) {
-            whereClause.scheduledAt = {}
+            whereClause.scheduleDate = {}
             if (start) {
-                whereClause.scheduledAt.gte = new Date(start)
+                whereClause.scheduleDate.gte = new Date(start)
             }
             if (end) {
-                whereClause.scheduledAt.lte = new Date(end)
+                whereClause.scheduleDate.lte = new Date(end)
             }
         }
 
@@ -34,13 +34,13 @@ export async function GET(req: Request) {
         })
 
     } catch (error) {
-        return handleError(error)
+        return handleErrorRequest(error)
     }
 }
 
 export async function POST(req: Request) {
     try {
-        const { animalName, breed, weight, service, ownerName, contact, scheduledAt } = await req.json()
+        const { animalName, breed, weight, service, ownerName, contact, scheduleDate, startTime, endTime } = await req.json()
 
         const missingFields = [] // Extra validation
         if (!animalName) missingFields.push('animalName')
@@ -49,7 +49,9 @@ export async function POST(req: Request) {
         if (!service) missingFields.push('service')
         if (!ownerName) missingFields.push('ownerName')
         if (!contact) missingFields.push('contact')
-        if (!scheduledAt) missingFields.push('scheduledAt')
+        if (!scheduleDate) missingFields.push('scheduleDate')
+        if (!startTime) missingFields.push('startTime')
+        if (!endTime) missingFields.push('endTime')
 
         if (missingFields.length > 0) {
             return NextResponse.json({
@@ -61,7 +63,24 @@ export async function POST(req: Request) {
             })
         }
 
-        const newAppointment = await prisma.appointment.create({ data: { animalName, breed, weight, service, ownerName, contact, scheduledAt } })
+        const [year, month, day] = scheduleDate.split('-')
+        const formattedScheduleDate = new Date(`${year}-${month}-${day}T12:00:00-03:00`).toISOString()
+        const formattedStartTime = new Date(`${year}-${month}-${day}T${startTime}-03:00`).toISOString()
+        const formattedEndTime = new Date(`${year}-${month}-${day}T${endTime}-03:00`).toISOString()
+
+        const newAppointment = await prisma.appointment.create({ 
+            data: { 
+                animalName, 
+                breed, 
+                weight, 
+                service, 
+                ownerName, 
+                contact, 
+                scheduleDate: formattedScheduleDate, 
+                startTime: formattedStartTime, 
+                endTime: formattedEndTime 
+            } 
+        })
 
         return NextResponse.json({
             status: "success",
@@ -70,6 +89,6 @@ export async function POST(req: Request) {
         })
 
     } catch (error) {
-        return handleError(error)
+        return handleErrorRequest(error)
     }
 }

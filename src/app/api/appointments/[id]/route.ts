@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server"
-import { handleError } from "@/utils/handlerError"
+import { handleErrorRequest } from "@/utils/handlerError"
 import { prisma } from "@/lib/prisma"
 
 export async function PATCH( request: Request, { params }: { params: { id: string } }) {
@@ -26,7 +26,7 @@ export async function PATCH( request: Request, { params }: { params: { id: strin
         })
 
     } catch (error) {
-        return handleError(error)
+        return handleErrorRequest(error)
     }
 }
 
@@ -50,6 +50,6 @@ export async function DELETE( request: Request, { params }: { params: { id: stri
         message: "Appointment deleted successfully"
     })
   } catch (error) {
-    return handleError(error)
+    return handleErrorRequest(error)
   }
 }

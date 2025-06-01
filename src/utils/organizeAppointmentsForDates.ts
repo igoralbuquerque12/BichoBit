@@ -5,7 +5,7 @@ export function organizeAppointmentsForDates(dataAppointments: Appointment[]) {
   const dayArrays: Appointment[][] = Array(6).fill(null).map(() => [])
 
   for (const appointment of dataAppointments) {
-    const appointmentDate = new Date(appointment.scheduledAt)
+    const appointmentDate = new Date(appointment.scheduleDate)
     const dayOfWeek = appointmentDate.getDay() 
     
     if (dayOfWeek >= 1 && dayOfWeek <= 6) {

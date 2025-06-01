@@ -54,7 +54,7 @@ export default function CardsHome({ appointments }: CardsHomeProps) {
                     <Calendar className="h-4 w-4 text-orange-500" />
                 </CardHeader>
                 <CardContent>
-                    <div className="text-2xl font-bold text-orange-600">{averagePerDay}</div>
+                    <div className="text-2xl font-bold text-orange-600">{averagePerDay.toFixed(2)}</div>
                     <p className="text-xs text-gray-600">horários por dia</p>
                 </CardContent>
             </Card>

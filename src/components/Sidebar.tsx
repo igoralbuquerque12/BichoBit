@@ -25,12 +25,12 @@ const menuItems = [
   },
   {
     title: "Lista Detalhada",
-    url: "/lista",
+    url: "/listagem",
     icon: List,
   },
   {
     title: "Cadastrar Animal",
-    url: "/cadastro",
+    url: "/agendamento",
     icon: Plus,
   },
 ]

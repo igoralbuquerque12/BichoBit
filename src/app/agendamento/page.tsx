@@ -8,7 +8,7 @@ import { ArrowLeft } from "lucide-react"
 
 import FormAppointment from "@/components/FormAppointment"
 
-export default function CadastroPage() {
+export default function AppointmentPage() {
 
   return (
     <div className="space-y-6">

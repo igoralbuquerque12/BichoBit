@@ -2,7 +2,7 @@ export interface Appointment {
   id: number
   animalName: string
   breed: string
-  weight: number
+  weight: string
   service: string
   ownerName: string
   contact: string

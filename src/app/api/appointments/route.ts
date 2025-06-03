@@ -2,17 +2,40 @@ import { prisma } from "@/lib/prisma"
 import { NextResponse } from "next/server"
 import { handleErrorRequest } from "@/utils/handlerError"
 import { Prisma } from "@prisma/client"
-import { Appointment } from "@/types/appointment"
+// import { Appointment } from "@/types/appointment"
 
 export async function GET(req: Request) {
     try {
         const url = new URL(req.url)
-        
+       
+        const date = url.searchParams.get('date')
+
+        if (date) {
+            const [year, month, day] = date.split('-')
+            const startDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
+            const endDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), 23, 59, 59, 999)
+
+            const dataAppointments = await prisma.appointment.findMany({
+                where: { 
+                    scheduleDate: { 
+                        gte: startDate,
+                        lte: endDate
+                    } 
+                }
+            })
+
+            return NextResponse.json({
+                status: "success",
+                message: "Appointment listed with success",
+                data: dataAppointments
+            })
+        }
+
         const start = url.searchParams.get('start')
         const end = url.searchParams.get('end')
 
         const whereClause: Prisma.appointmentWhereInput = {}
-        
+
         if (start || end) {
             whereClause.scheduleDate = {}
             if (start) {
@@ -23,7 +46,7 @@ export async function GET(req: Request) {
             }
         }
 
-        const dataAppointments: Appointment[] = await prisma.appointment.findMany({
+        const dataAppointments = await prisma.appointment.findMany({
             where: whereClause
         })
 
@@ -68,18 +91,18 @@ export async function POST(req: Request) {
         const formattedStartTime = new Date(`${year}-${month}-${day}T${startTime}-03:00`).toISOString()
         const formattedEndTime = new Date(`${year}-${month}-${day}T${endTime}-03:00`).toISOString()
 
-        const newAppointment = await prisma.appointment.create({ 
-            data: { 
-                animalName, 
-                breed, 
-                weight, 
-                service, 
-                ownerName, 
-                contact, 
-                scheduleDate: formattedScheduleDate, 
-                startTime: formattedStartTime, 
-                endTime: formattedEndTime 
-            } 
+        const newAppointment = await prisma.appointment.create({
+            data: {
+                animalName,
+                breed,
+                weight,
+                service,
+                ownerName,
+                contact,
+                scheduleDate: formattedScheduleDate,
+                startTime: formattedStartTime,
+                endTime: formattedEndTime
+            }
         })
 
         return NextResponse.json({

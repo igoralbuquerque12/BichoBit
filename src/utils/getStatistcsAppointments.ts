@@ -21,7 +21,7 @@ export function getStatisticsAppointments(appointments: Appointment[]): Statisti
         totalToday: appointments.filter(appointment => {
             const appointmentDate = new Date(appointment.scheduleDate)
 
-            return appointmentDate.getDate() === (today.getDate() - 1)
+            return appointmentDate.getDate() === (today.getDate() - 1) // Fix in the future --> ERROR IN DATABASE TIME ZONE !!! Acresc +3h in all records
         }).length,
         busiestDay: {
             day: '',

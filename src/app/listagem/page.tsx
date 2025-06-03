@@ -18,11 +18,9 @@ export default function ListagemPage() {
 
   useEffect(() => {
     const getAppointments = async () => {
-      console.log('A data selecionada: ', selectedDate)
       const queryParams = new URLSearchParams({
         date: `${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`
       })
-      console.log(`A data do query: ${selectedDate.getFullYear()}-${String(selectedDate.getMonth() + 1).padStart(2, '0')}-${String(selectedDate.getDate()).padStart(2, '0')}`)
       const res = await fetch(`/api/appointments?${queryParams.toString()}`, {
         method: "GET",
         headers: {

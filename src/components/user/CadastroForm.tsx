@@ -21,7 +21,6 @@ import { AlertCircle, CheckCircle } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { cadastrar } from "@/lib/actions/userRegister"
 
-// Esquema Zod conforme UserInterface
 const formSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
   senha: z.string().min(8, { message: "Senha deve ter pelo menos 8 caracteres" })
@@ -55,7 +54,7 @@ export default function UserCadastroForm() {
     setFormSuccess(null)
 
     try {
-      await cadastrar(data) // enviar objeto conforme UserInterface
+      await cadastrar(data) 
 
       setFormSuccess("Cadastro realizado com sucesso!")
       reset()
@@ -77,7 +76,7 @@ export default function UserCadastroForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Email */}
+
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -90,7 +89,6 @@ export default function UserCadastroForm() {
             {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
           </div>
 
-          {/* Senha */}
           <div className="space-y-2">
             <Label htmlFor="senha">Senha</Label>
             <Input
@@ -103,7 +101,6 @@ export default function UserCadastroForm() {
             {errors.senha && <p className="text-sm text-red-500">{errors.senha.message}</p>}
           </div>
 
-          {/* Erro geral */}
           {formError && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />
@@ -111,7 +108,6 @@ export default function UserCadastroForm() {
             </Alert>
           )}
 
-          {/* Sucesso */}
           {formSuccess && (
             <Alert className="bg-green-50 text-green-800 border-green-200">
               <CheckCircle className="h-4 w-4" />

@@ -7,7 +7,6 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 
 export function Header() {
   const handleLogout = () => {
-    // Implementar lógica de logout aqui
     console.log("Logout realizado")
   }
 

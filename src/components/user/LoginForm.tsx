@@ -15,8 +15,6 @@ import Link from "next/link"
 
 import { useRouter } from "next/navigation"
 
-// Esquema de validação usando Zod
-// Define as regras de validação para o formulário
 const formSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
   password: z.string().min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
@@ -27,7 +25,6 @@ type FormValues = z.infer<typeof formSchema>
 export default function UserLoginForm() {
   const router = useRouter()
 
-  // Estados para controlar loading e mensagens
   const [isLoading, setIsLoading] = useState(false)
   const [formSuccess, setFormSuccess] = useState<string | null>(null)
   const [formError, setFormError] = useState<string | null>(null)
@@ -69,7 +66,6 @@ export default function UserLoginForm() {
     }
   }
 
-  // Renderização do formulário
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
@@ -78,7 +74,6 @@ export default function UserLoginForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Campo de email */}
           <div className="space-y-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -91,7 +86,6 @@ export default function UserLoginForm() {
             {errors.email && <p className="text-sm text-red-500">{errors.email.message}</p>}
           </div>
 
-          {/* Campo de senha */}
           <div className="space-y-2">
             <Label htmlFor="password">Senha</Label>
             <Input
@@ -104,7 +98,6 @@ export default function UserLoginForm() {
             {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
 
-          {/* Mensagem de erro */}
           {formError && (
             <Alert variant="destructive">
               <AlertCircle className="h-4 w-4" />

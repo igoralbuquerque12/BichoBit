@@ -4,8 +4,8 @@ import { List, Plus } from "lucide-react"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
-import CardsHome from "@/components/CardsHome"
-import GraphHome from "@/components/GraphHome"
+import CardsHome from "@/components/home/CardsHome"
+import GraphHome from "@/components/home/GraphHome"
 
 import { Appointment } from "@/types/appointment"
 import { organizeAppointmentsForDates } from "@/utils/organizeAppointmentsForDates"

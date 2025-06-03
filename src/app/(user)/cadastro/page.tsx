@@ -1,4 +1,4 @@
-import UserCadastroForm from "@/components/CadastroForm"
+import UserCadastroForm from "@/components/user/CadastroForm"
 
 export default function CadastroPagina() {
   return (

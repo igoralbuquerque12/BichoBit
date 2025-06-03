@@ -11,9 +11,8 @@ export async function GET(req: Request) {
         const date = url.searchParams.get('date')
 
         if (date) {
-            const [year, month, day] = date.split('-')
-            const startDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day))
-            const endDate = new Date(parseInt(year), parseInt(month) - 1, parseInt(day), 23, 59, 59, 999)
+            const startDate = new Date(date)
+            const endDate = new Date(date + 'T23:59:59.999Z')
 
             const dataAppointments = await prisma.appointment.findMany({
                 where: { 
@@ -87,9 +86,9 @@ export async function POST(req: Request) {
         }
 
         const [year, month, day] = scheduleDate.split('-')
-        const formattedScheduleDate = new Date(`${year}-${month}-${day}T12:00:00-03:00`).toISOString()
-        const formattedStartTime = new Date(`${year}-${month}-${day}T${startTime}-03:00`).toISOString()
-        const formattedEndTime = new Date(`${year}-${month}-${day}T${endTime}-03:00`).toISOString()
+        const formattedScheduleDate = new Date(`${year}-${month}-${day}T00:00:00-00:00`).toISOString()
+        const formattedStartTime = new Date(`${year}-${month}-${day}T${startTime}-00:00`).toISOString()
+        const formattedEndTime = new Date(`${year}-${month}-${day}T${endTime}-00:00`).toISOString()
 
         const newAppointment = await prisma.appointment.create({
             data: {

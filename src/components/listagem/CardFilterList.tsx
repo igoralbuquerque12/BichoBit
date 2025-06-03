@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Calendar } from "lucide-react"
 
 export default function CardFilterList({ selectedDate, setSelectedDate }: { selectedDate: Date, setSelectedDate: (date: Date) => void }) {
+
     return (
         <Card className="border-orange-200">
             <CardHeader>
@@ -22,8 +23,12 @@ export default function CardFilterList({ selectedDate, setSelectedDate }: { sele
                     <Input
                         id="date"
                         type="date"
-                        value={selectedDate.toLocaleString("en-US", { timeZone: "America/Sao_Paulo" }).split('T')[0]}
-                        onChange={(e) => setSelectedDate(new Date(e.target.value))}
+                        value={selectedDate.toISOString().split('T')[0]}
+                        onChange={(e) => {
+                            const dateWished = new Date(`${e.target.value}`)
+                            dateWished.setHours(dateWished.getHours() + 3)
+                            setSelectedDate(dateWished)
+                        } }
                         className="w-auto border-orange-200 focus:border-orange-500"
                     />
                     <Button className="bg-orange-500 hover:bg-orange-600">Filtrar</Button>

@@ -38,10 +38,10 @@ export async function GET(req: Request) {
         if (start || end) {
             whereClause.scheduleDate = {}
             if (start) {
-                whereClause.scheduleDate.gte = new Date(start)
+                whereClause.scheduleDate.gte = new Date(`${start}`)
             }
             if (end) {
-                whereClause.scheduleDate.lte = new Date(end)
+                whereClause.scheduleDate.lte = new Date(`${end}T20:59:59.999`)
             }
         }
 

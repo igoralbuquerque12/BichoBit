@@ -15,7 +15,7 @@ import { getWeekRange } from "@/utils/getWeekRange"
 export default async function HomePage() {
   const { startOfWeek, endOfWeek } = getWeekRange()
 
-  const queryParams = new URLSearchParams({ start: startOfWeek.toString(), end: endOfWeek.toString() });
+  const queryParams = new URLSearchParams({ start: startOfWeek.toISOString().split('T')[0], end: endOfWeek.toISOString().split('T')[0] });
 
   const res = await fetch(`${process.env.URL}/api/appointments?${queryParams.toString()}`, {
     method: 'GET',
@@ -30,7 +30,6 @@ export default async function HomePage() {
   const dataAppointments: Appointment[] = data.data
 
   const appointmentArray = organizeAppointmentsForDates(dataAppointments)
-
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

@@ -1,36 +1,104 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BichoBit 🐾
 
-## Getting Started
+BichoBit é um sistema de gestão para petshops que oferece uma solução completa para agendamento de serviços e visualização de dados. Na sua primeira versão, o sistema permite o agendamento de horários para serviços pet, com visualização de dashboards interativos e controle total sobre os agendamentos, proporcionando uma gestão eficiente e organizada do negócio.
 
-First, run the development server:
+## 🚀 Tecnologias Utilizadas
 
+- **Next.js 14** - Framework React para desenvolvimento web
+- **TypeScript** - Superset JavaScript com tipagem estática
+- **Node.js** - Runtime JavaScript
+- **TailwindCSS** - Framework CSS utilitário
+- **Prisma** - ORM com PostgreSQL
+- **Mongoose** - ODM para MongoDB
+- **shadcn/ui** - Biblioteca de componentes
+- **NextAuth.js** - Autenticação JWT
+
+## ✨ Funcionalidades
+
+- **Agendamento de Serviços**
+  - Cadastro completo de animais e proprietários
+  - Seleção de serviços específicos
+  - Registro de observações importantes
+  - Controle de horários disponíveis
+
+- **Dashboard Interativo**
+  - Visualização de estatísticas semanais
+  - Gráficos de ocupação
+  - Lista de agendamentos do dia
+  - Métricas de desempenho
+
+- **Sistema de Autenticação**
+  - Login seguro com JWT
+  - Proteção de rotas
+  - Gerenciamento de sessão
+
+- **Interface Responsiva**
+  - Design moderno e intuitivo
+  - Adaptação para diferentes dispositivos
+  - Página 404 personalizada
+
+## 📸 Screenshots
+
+### Dashboard Principal
+![Dashboard Principal](/public/images/home.png)
+*Visão geral do sistema com estatísticas e gráficos*
+
+### Listagem de Agendamentos
+![Listagem](/public/images/listagem.png)
+*Lista detalhada de todos os agendamentos*
+
+### Cadastro de Agendamentos
+![Cadastro](/public/images/agendamento.png)
+*Formulário de agendamento*
+
+### Telas de Autenticação, Cadastro e Not-Found
+![Autenticação](/public/images/outraspaginas.png)
+*Telas de login, cadastro e página 404*
+
+## 🔮 Planejamento Futuro
+
+- **Controle Financeiro**
+  - Integração com sistemas de pagamento
+  - Relatórios financeiros
+  - Controle de custos e receitas
+
+- **Funcionalidades Avançadas**
+  - Cadastramento em massa
+  - Sistema de fidelidade
+  - Integração com WhatsApp
+  - App mobile
+
+## 🛠️ Instalação
+
+1. Clone o repositório
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/seu-usuario/bichobit.git
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Instale as dependências
+```bash
+cd bichobit
+npm install
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. Configure as variáveis de ambiente
+```bash
+cp .env.example .env
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+4. Execute as migrações do banco de dados
+```bash
+npx prisma migrate dev
+```
 
-## Learn More
+5. Inicie o servidor de desenvolvimento
+```bash
+npm run dev
+```
 
-To learn more about Next.js, take a look at the following resources:
+O sistema estará disponível em `http://localhost:3000`
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 👥 Contribuição
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Contribuições são sempre bem-vindas! Sinta-se à vontade para abrir issues e pull requests.

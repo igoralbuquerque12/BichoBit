@@ -3,7 +3,7 @@ import mongoose, { Schema, model } from "mongoose"
 export interface UserInterface {
     _id: string
     email: string
-    senha: string
+    password: string
     createdAt: Date
     updatedAt: Date
 }
@@ -13,7 +13,7 @@ const UserSchema = new Schema<UserInterface>({
         type: String,
         unique: true
     },
-    senha: {
+    password: {
         type: String,
         required: true,
     }

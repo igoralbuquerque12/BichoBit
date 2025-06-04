@@ -4,10 +4,11 @@ import { LogOut, User } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SidebarTrigger } from "@/components/ui/sidebar"
+import { signOut } from "next-auth/react"
 
 export function Header() {
-  const handleLogout = () => {
-    console.log("Logout realizado")
+  const handleLogout = async () => {
+    await signOut()
   }
 
   return (

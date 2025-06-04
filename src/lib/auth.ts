@@ -12,9 +12,9 @@ export const authOptions: NextAuthOptions = {
       id: "credentials",
       credentials: {
         email: { label: "Email", type: "text" },
-        senha: { label: "Senha", type: "senha" },
+        password: { label: "Senha", type: "password" },
       },
-      async authorize(credentials: Record<"email" | "senha", string> | undefined) { 
+      async authorize(credentials: Record<"email" | "password", string> | undefined) { 
         await connectDB()
 
         const usuario = await Usuario.findOne({
@@ -25,9 +25,9 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Email/Senha incorretos") 
         }
 
-        const senhaMatch = await bcrypt.compare(credentials!.senha, usuario.senha) 
+        const passwordMatch = await bcrypt.compare(credentials!.password, usuario.password) 
 
-        if (!senhaMatch) {
+        if (!passwordMatch) {
           throw new Error("Email/Senha incorretos")
         }
         return {

@@ -3,17 +3,12 @@
 import { connectDB } from "@/lib/mongodb"
 import User from "@/modelsMongo/User"
 import bcrypt from "bcryptjs"
+import { UserInterface } from "@/types/user"
 
-interface UserInterface {
-    email: string
-    senha: string
-}
+export async function registerUser(dataUser: UserInterface) {
+    const { email, password } = dataUser
 
-
-export async function cadastrar(dataUser: UserInterface) {
-    const { email, senha } = dataUser
-
-    if (!email || !senha) {
+    if (!email || !password) {
         throw new Error("Dados faltantes para cadastro.")
     }
 
@@ -24,11 +19,11 @@ export async function cadastrar(dataUser: UserInterface) {
 
         if (UserDB) throw new Error("Usuário já cadastrado no banco de dados.")
         
-        const hashPassword = await bcrypt.hash(senha, 10)
+        const hashPassword = await bcrypt.hash(password, 10)
         
         const novoUser = new User({
             email, 
-            senha: hashPassword
+            password: hashPassword
         })
 
         await novoUser.save()

@@ -6,7 +6,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowLeft } from "lucide-react"
 
-import FormAppointment from "@/components/cadastro/FormAppointment"
+import FormAppointment from "@/components/agendamento/FormAppointment"
 
 export default function AppointmentPage() {
 

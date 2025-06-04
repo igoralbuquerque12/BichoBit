@@ -6,10 +6,9 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-
 import { FormData } from "@/types/appointment"
 import { handleErrorSimple } from "@/utils/handlerError"
-
+import { toast } from 'react-toastify'
 
 
 export default function FormAppointment() {
@@ -25,6 +24,21 @@ export default function FormAppointment() {
         endTime: "",
         observations: "",
     })
+
+    const cleanForm = () => {
+        setFormData({
+            animalName: "",
+            breed: "",
+            weight: "",
+            service: "",
+            ownerName: "",
+            contact: "",
+            scheduleDate: "",
+            startTime: "",
+            endTime: "",
+            observations: "",
+        })
+    }
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -47,7 +61,18 @@ export default function FormAppointment() {
 
                 if (!res.ok) throw new Error('Erro no fetch de criar agendamento.')
 
+                cleanForm()
+
+                toast.success('Agendamento realizado com sucesso!', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                })
             } catch (error) {
+                toast.error('Houve um erro ao realizar o cadastro.', {
+                    position: "bottom-right",
+                    autoClose: 3000,
+                })
+
                 return handleErrorSimple(error)
             }
         }
@@ -198,7 +223,7 @@ export default function FormAppointment() {
                             <Save className="mr-2 h-4 w-4" />
                             Salvar Agendamento
                         </Button>
-                        <Button type="button" variant="outline" className="border-orange-500 text-orange-600 hover:bg-orange-50">
+                        <Button type="button" onClick={cleanForm} variant="outline" className="border-orange-500 text-orange-600 hover:bg-orange-50">
                             Limpar Formulário
                         </Button>
                     </div>

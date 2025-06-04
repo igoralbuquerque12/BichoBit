@@ -5,6 +5,8 @@ import "./globals.css"
 import { SidebarProvider } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/Sidebar"
 import { Header } from "@/components/Header"
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -30,6 +32,7 @@ export default function RootLayout({
             </div>
           </div>
         </SidebarProvider>
+        <ToastContainer />
       </body>
     </html>
   )

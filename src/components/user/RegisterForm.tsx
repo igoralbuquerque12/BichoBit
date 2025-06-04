@@ -1,6 +1,5 @@
 "use client"
 
-import { login } from "@/lib/actions/userLogin"
 import { useState } from "react"
 import { z } from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -8,25 +7,27 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { AlertCircle } from "lucide-react"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { toast } from "react-toastify"
+
+import { registerUser } from "@/lib/actions/userRegister"
 
 const formSchema = z.object({
   email: z.string().email({ message: "Email inválido" }),
   password: z.string().min(8, { message: "Senha deve ter pelo menos 8 caracteres" }),
+  confirmPassword: z.string()
+}).refine((data) => data.password === data.confirmPassword, {
+  message: "As senhas não coincidem",
+  path: ["confirmPassword"],
 })
 
 type FormValues = z.infer<typeof formSchema>
 
-export default function UserLoginForm() {
+export default function UserRegisterForm() {
   const router = useRouter()
-
   const [isLoading, setIsLoading] = useState(false)
-  const [formSuccess, setFormSuccess] = useState<string | null>(null)
-  const [formError, setFormError] = useState<string | null>(null)
 
   const {
     register,
@@ -38,47 +39,50 @@ export default function UserLoginForm() {
     defaultValues: {
       email: "",
       password: "",
+      confirmPassword: "",
     },
   })
 
   const onSubmit = async (values: FormValues) => {
+    const { email, password } = values
+
     setIsLoading(true)
-    setFormError(null)
-    setFormSuccess(null)
 
     try {
-      const res = await login(values.email, values.password)
+        await registerUser({
+          email: email,
+          password: password
+        })
 
-      if (!res) {
 
-      }
+        toast.success('Conta criada com sucesso!', {
+            position: "bottom-right",
+            autoClose: 2000,
+        })
 
-      toast.success('Sucesso ao realizar login', {
-        position: "bottom-right",
-        autoClose: 3000,
-      })
-
-      reset()
-      return router.push('/')
-
+        reset()
+        
+        setTimeout(() => {
+            router.push('/login')
+        }, 1000)
+        
     } catch (error) {
-      toast.error('Houve um erro ao realizar o login.', {
-        position: "bottom-right",
-        autoClose: 3000,
-      })
-      console.error("Erro ao processar login:", error)
-
+        console.error("Erro ao criar conta:", error)
+        toast.error('Ocorreu um erro ao criar sua conta. Tente novamente.', {
+            position: "bottom-right",
+            autoClose: 3000,
+        })
     } finally {
-      setIsLoading(false)
+        setIsLoading(false)
     }
   }
 
   return (
     <Card className="w-full border-orange-200 shadow-lg">
       <CardHeader className="space-y-1">
-        <CardTitle className="text-2xl font-bold text-orange-600">Login</CardTitle>
+        <CardTitle className="text-2xl font-bold text-orange-600">Cadastro</CardTitle>
         <CardDescription className="text-gray-600">
-          Entre com seus dados para acessar sua conta
+          Preencha os dados abaixo para criar sua conta
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -109,28 +113,39 @@ export default function UserLoginForm() {
             {errors.password && <p className="text-sm text-red-500">{errors.password.message}</p>}
           </div>
 
-          {formError && (
-            <Alert variant="destructive" className="bg-red-50 border-red-200 text-red-800">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>{formError}</AlertDescription>
-            </Alert>
-          )}
+          <div className="space-y-2">
+            <Label htmlFor="confirmPassword" className="text-gray-700">Confirmar Senha</Label>
+            <Input
+              id="confirmPassword"
+              type="password"
+              placeholder="********"
+              {...register("confirmPassword")}
+              className="border-orange-200 focus:border-orange-500 focus:ring-orange-500"
+              aria-invalid={errors.confirmPassword ? "true" : "false"}
+            />
+            {errors.confirmPassword && <p className="text-sm text-red-500">{errors.confirmPassword.message}</p>}
+          </div>
 
-          {formSuccess && (
-            <Alert className="bg-green-50 text-green-800 border-green-200">
-              <AlertDescription>{formSuccess}</AlertDescription>
-            </Alert>
-          )}
-
-          <Button
-            type="submit"
-            className="w-full bg-orange-500 hover:bg-orange-600 text-white"
+          <Button 
+            type="submit" 
+            className="w-full bg-orange-500 hover:bg-orange-600 text-white" 
             disabled={isLoading}
           >
-            {isLoading ? "Processando..." : "Entrar"}
+            {isLoading ? "Processando..." : "Criar Conta"}
           </Button>
         </form>
       </CardContent>
+      <CardFooter className="flex flex-col space-y-4">
+        <div className="text-sm text-center text-gray-600">
+          Já tem uma conta?{" "}
+          <Link 
+            href="/login" 
+            className="font-medium text-orange-600 hover:text-orange-500"
+          >
+            Faça login
+          </Link>
+        </div>
+      </CardFooter>
     </Card>
   )
-}
+} 

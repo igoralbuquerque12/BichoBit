@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Edit, Trash2 } from "lucide-react"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { toast } from "react-toastify"
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,20 +16,48 @@ import {
 } from "@/components/ui/alert-dialog"
 
 import { Appointment } from "@/types/appointment"
+import { handleErrorSimple } from "@/utils/handlerError"
 
-export default function CardTableList({ dataAppointments, date }: { dataAppointments: Appointment[], date: Date }) {
+type CardTableListProps = {
+  dataAppointments: Appointment[]
+  setDataAppointments: (value: Appointment[]) => void
+  date: Date
+}
+
+export default function CardTableList({ dataAppointments, setDataAppointments, date }: CardTableListProps) {
   const services = ["Banho", "Tosa", "Banho e Tosa", "Consulta Veterinária", "Vacinação", "Cirurgia", "Exames", "Outros"];
 
-  const handleDelete = (id: number) => {
-    // setData(data.filter((item) => item.id !== id))
-    return id
+  const handleDelete = async (id: number) => {
+    try {
+      const res = await fetch(`/api/appointments/${id}`, {
+        method: 'DELETE'
+      })
+
+      if (!res.ok) throw new Error('Erro ao deletar agendamento.')
+      
+      setDataAppointments(dataAppointments.filter(appointment => appointment.id !== id))
+
+      toast.success('Agendamento cancelado com sucesso!', {
+        position: 'bottom-right',
+        autoClose: 3000
+      })
+    }
+
+    catch (error) {
+      toast.error('Houve um erro ao realizar o cadastro.', {
+        position: "bottom-right",
+        autoClose: 3000,
+      })
+
+      return handleErrorSimple(error)
+    }
   }
 
   const handleEdit = (id: number) => {
     // Implementar lógica de edição
     console.log("Editar item:", id)
   }
-  
+
   return (
     <Card className="border-orange-200">
       <CardHeader>
@@ -63,7 +92,7 @@ export default function CardTableList({ dataAppointments, date }: { dataAppointm
                   <TableCell>{item.contact}</TableCell>
                   <TableCell>
                     <span className="inline-flex items-center rounded-full bg-orange-100 px-2.5 py-0.5 text-xs font-medium text-orange-800">
-                    {new Date(item.startTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })} - {new Date(item.endTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
+                      {new Date(item.startTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })} - {new Date(item.endTime).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}
                     </span>
                   </TableCell>
                   <TableCell>

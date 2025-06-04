@@ -51,7 +51,7 @@ export default function ListagemPage() {
         </div>
       </div>
       <CardFilterList selectedDate={selectedDate} setSelectedDate={setSelectedDate} />
-      <CardTableList dataAppointments={dataAppointments} date={selectedDate} />
+      <CardTableList dataAppointments={dataAppointments} setDataAppointments={setDataAppointments} date={selectedDate} />
     </div>
   )
 }

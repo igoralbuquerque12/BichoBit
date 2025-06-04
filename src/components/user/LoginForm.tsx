@@ -47,11 +47,7 @@ export default function UserLoginForm() {
     setFormSuccess(null)
 
     try {
-      const res = await login(values.email, values.password)
-
-      if (!res) {
-
-      }
+      await login(values.email, values.password)
 
       toast.success('Sucesso ao realizar login', {
         position: "bottom-right",

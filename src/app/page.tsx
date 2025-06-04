@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 
 import CardsHome from "@/components/home/CardsHome"
 import GraphHome from "@/components/home/GraphHome"
+import TodayAppointments from "@/components/home/TodayAppointments"
 
 import { Appointment } from "@/types/appointment"
 import { organizeAppointmentsForDates } from "@/utils/organizeAppointmentsForDates"
@@ -55,7 +56,10 @@ export default async function HomePage() {
 
       <CardsHome appointments={dataAppointments} />
 
-      <GraphHome appointmentArray={appointmentArray} />
+      <div className="grid gap-6 md:grid-cols-2">
+        <GraphHome appointmentArray={appointmentArray} />
+        <TodayAppointments appointments={dataAppointments} />
+      </div>
     </div>
   )
 }

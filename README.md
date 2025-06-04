@@ -4,7 +4,7 @@ BichoBit é um sistema de gestão para petshops que oferece uma solução comple
 
 ## 🚀 Tecnologias Utilizadas
 
-- **Next.js 14** - Framework React para desenvolvimento web
+- **Next.js 15** - Framework React para desenvolvimento web
 - **TypeScript** - Superset JavaScript com tipagem estática
 - **Node.js** - Runtime JavaScript
 - **TailwindCSS** - Framework CSS utilitário
@@ -53,7 +53,7 @@ BichoBit é um sistema de gestão para petshops que oferece uma solução comple
 
 ### Telas de Autenticação, Cadastro e Not-Found
 ![Autenticação](/public/images/outraspaginas.png)
-*Telas de login, cadastro e página 404*
+    *Telas de login, cadastro e página 404*
 
 ## 🔮 Planejamento Futuro
 
